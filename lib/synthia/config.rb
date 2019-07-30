@@ -6,10 +6,12 @@ module Synthia
     @@settings = {}
 
     def self.load_commands
-      command_array = Dir.glob('app/commands/*.rb').map do |filename|
-        filename.to_s.gsub('app/commands/', '').gsub('.rb', '').titleize.gsub(' ', '')
+      command_hash = {}
+      Dir.glob('app/commands/*.rb').each do |filename|
+        class_name = filename.to_s.gsub('app/commands/', '').gsub('.rb', '').titleize.gsub(' ', '')
+        command_hash.merge! class_name.downcase => class_name
       end
-      @@settings.merge! :commands => command_array
+      @@settings.merge! 'commands' => command_hash
     end
 
     def self.load_yaml(file)
