@@ -1,4 +1,4 @@
-module Synthia
-  class Command
+module Synthia::Command
+  class Base
   end
 end
