@@ -4,7 +4,6 @@ module Synthia::Command
   class SongRequest < Synthia::Command::Base
 
     def self.execute(hacker, input)
-      # Create a Song Request
       url = input.to_a[0].to_s
       return 'Invalid YouTube URL Submitted.' unless valid_url?(url)
       Synthia::Model::SongRequest.log_song_request hacker, url
@@ -12,10 +11,6 @@ module Synthia::Command
     end
 
     def self.valid_url?(url)
-      # https://youtube.com/ => 0,19
-      # http://youtube.com/ => 0,18
-      # https://youtu.be/ => 0,16
-      # http://youtu.be/ => 0,15
       return true if url[0,20] == 'https://youtube.com/'
       return true if url[0,24] == 'https://www.youtube.com/'
       return true if url[0,19] == 'http://youtube.com/'
