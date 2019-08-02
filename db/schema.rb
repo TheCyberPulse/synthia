@@ -1,4 +1,6 @@
 require 'sequel'
+load 'lib/synthia.rb'
+Synthia::init
 
 # %w'String Integer Fixnum Float Numeric BigDecimal Date DateTime Time File TrueClass FalseClass'
 
@@ -24,10 +26,9 @@ end
 DB.create_table :song_requests do
   primary_key :id
   foreign_key :hacker_id, :hackers
-  Integer :sequence
+  TrueClass :played, :default => false
   String :url
   DateTime :deleted_at
   DateTime :created_at
   DateTime :updated_at
-  index :sequence
 end
