@@ -8,5 +8,6 @@ module Synthia
     Synthia::Config.load_yaml 'config/application.yml'
     Synthia::Config.load_yaml 'config/summer.yml'
     Synthia::Config.load_commands
+    Synthia::Config.load_special_commands
   end
 end

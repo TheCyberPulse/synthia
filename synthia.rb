@@ -60,7 +60,8 @@ class SynthiaPulse < Summer::Connection
   def sanitize_and_unwrap(command_name)
     command_prefix = Synthia::Config[:command_prefix]
     return unless command_name[0,1] == '!'
-    command_name.to_s.gsub('!', '').gsub(command_prefix, '')
+    command_name = command_name.to_s.gsub(command_prefix, '') # for regular commands
+    command_name.to_s.gsub('!', '') # for special commands
   end
 end
 
