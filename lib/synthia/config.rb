@@ -18,8 +18,7 @@ module Synthia
       special_commands = {
         'sr' => 'SongRequest',
         'songrequest' => 'SongRequest',
-        'cred' => 'Cred',
-        'givecred' => 'Cred'
+        'creds' => 'Cred'
       }
       @@settings['commands'].merge! special_commands
     end
