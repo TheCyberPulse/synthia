@@ -10,7 +10,7 @@ module Synthia::Command
 
       return Synthia::Config['forbidden_response'].to_s if amount > 100
 
-      if !['thecyberpulse', 'xeraen', 'rykerpulse','synthiapulse'].include?(hacker[:alias].to_s) && action == 'give'
+      if !Synthia::Config['su_hackers'].to_a.include?(hacker[:alias].to_s) && action == 'give'
         return Synthia::Config['forbidden_response'].to_s
       end
 

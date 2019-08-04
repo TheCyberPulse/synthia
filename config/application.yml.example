@@ -11,3 +11,9 @@ database:
 command_prefix: '!pulse'
 unknown_response: 'I do not know how to do that.'
 forbidden_response: '403 FORBIDDEN'
+
+su_hackers:
+  - thecyberpulse
+  - rykerpulse
+  - synthiapulse
+  - xeraen
