@@ -9,3 +9,5 @@ database:
   name: 'api_database'
 
 command_prefix: '!pulse'
+unknown_response: 'I do not know how to do that.'
+forbidden_response: '403 FORBIDDEN'

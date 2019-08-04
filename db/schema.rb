@@ -48,3 +48,14 @@ unless DB.table_exists?(:custom_commands)
     DateTime :updated_at
   end
 end
+
+unless DB.table_exists?(:creds)
+  DB.create_table :creds do
+    primary_key :id
+    foreign_key :hacker_id, :hackers
+    Integer :amount
+    DateTime :deleted_at
+    DateTime :created_at
+    DateTime :updated_at
+  end
+end
