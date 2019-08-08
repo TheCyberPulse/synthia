@@ -14,20 +14,19 @@ DB = Sequel.postgres(
   :port => Synthia::Config['database']['port']
 )
 # Load models
-Dir.glob(File.dirname(File.absolute_path(__FILE__)) + '/app/models/**/*', &method(:load))
+Dir.glob(
+  File.dirname(File.absolute_path(__FILE__)) + '/app/models/**/*',
+  &method(:load)
+)
 
 class SynthiaPulse < Summer::Connection
 
   def channel_message(sender, channel, message)
     puts "#{sender[:nick]} [#{channel}]: #{message}"
-
-    hacker = Hacker.find_or_create sender[:nick]
-    p '*************************'
-    p hacker[:alias]
-    p '*************************'
-
-    response_message = parse_command message
-    response("PRIVMSG #{Synthia::Config[:channel]} :#{response_message}") unless response_message.to_s == ''
+    hacker = Synthia::Model::Hacker.find_or_create sender[:nick]
+    response_message = parse_and_execute_command(hacker, parse_message(message))
+    return if response_message.to_s == ''
+    response("PRIVMSG #{Synthia::Config[:channel]} :#{response_message}")
   end
 
   def did_start_up
@@ -37,10 +36,25 @@ class SynthiaPulse < Summer::Connection
 
   private
 
-  def parse_command(message)
-    command = sanitize_and_unwrap(message.to_s.split(' ')[0])
+  def parse_and_execute_command(hacker, parsed_message)
+    command = sanitize_and_unwrap(parsed_message[:command_section])
     return if command == ''
-    Synthia::Controller.new.call command
+    Synthia::Controller.new.call hacker, command, parsed_message[:input]
+  end
+
+  # Takes message and separates command part from the rest, e.g.
+  # {
+  #   :command_section => '!pulsesr',
+  #   :input => ['https://youtu.be/?v=1234567', 'a', 'cool', 'song']
+  # }
+  def parse_message(message)
+    message_array = message.to_s.split(' ')
+    # Due to the call to `shift`,
+    # the first element of the array is removed.
+    {
+      :command_section => message_array.shift,
+      :input => message_array
+    }
   end
 
   def sanitize_and_unwrap(command_name)
