@@ -3,7 +3,7 @@ module Synthia::Model
 
     def self.find_or_create(hacker_alias)
       hacker_alias = hacker_alias.to_s.downcase
-      result = where(:alias => hacker_alias).first
+      result = where(:alias => hacker_alias, :deleted_at => nil).first
 
       # Found a known CyberSpace Hacker Alias
       return result unless result.nil?

@@ -9,7 +9,7 @@ module Synthia::Model
     end
 
     def self.queue
-      where(:played => false).order(:id)
+      where(:played => false, :deleted_at => nil).order(:id)
     end
   end
 end
