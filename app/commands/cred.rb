@@ -14,24 +14,26 @@ module Synthia::Command
         return Synthia::Config['forbidden_response'].to_s
       end
 
-      if action.empty?
+      if action.empty? || (action == 'balance' && target_hacker_alias.empty?)
         action = 'balance'
         target_hacker_alias = hacker[:alias].to_s
       end
 
       target_hacker = Synthia::Model::Hacker.first :alias => target_hacker_alias
 
-      if action == 'give' && !target_hacker.nil?
+      return Synthia::Config['unknown_response'].to_s if target_hacker.nil?
+
+      case action
+      when 'give'
         balance = Synthia::Model::Cred.give_cred target_hacker, amount
-        return "#{amount} cred given to Hacker Alias #{target_hacker[:alias]}. Their new balance of cred is #{balance}"
-      end
-
-      if action == 'balance' && !target_hacker.nil?
+        "#{amount} cred given to Hacker Alias #{target_hacker[:alias]}. Their new balance of cred is #{balance}"
+      when 'balance'
         balance = Synthia::Model::Cred.check_balance(target_hacker)
-        return "Hacker Alias #{target_hacker[:alias].to_s} has #{balance.to_i} cred."
+        "Hacker Alias #{target_hacker[:alias].to_s} has #{balance.to_i} cred."
+      else
+        Synthia::Config['unknown_response'].to_s
       end
 
-      Synthia::Config['unknown_response'].to_s
     end
   end
 end
