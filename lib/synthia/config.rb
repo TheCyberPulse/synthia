@@ -14,6 +14,14 @@ module Synthia
       @@settings.merge! 'commands' => command_hash
     end
 
+    def self.load_special_commands
+      special_commands = {
+        'sr' => 'SongRequest',
+        'songrequest' => 'SongRequest'
+      }
+      @@settings['commands'].merge! special_commands
+    end
+
     def self.load_yaml(file)
       @@settings.merge! ::YAML::load_file file
     end
