@@ -17,7 +17,8 @@ module Synthia
     def self.load_special_commands
       special_commands = {
         'sr' => 'SongRequest',
-        'songrequest' => 'SongRequest'
+        'songrequest' => 'SongRequest',
+        'creds' => 'Cred'
       }
       @@settings['commands'].merge! special_commands
     end
