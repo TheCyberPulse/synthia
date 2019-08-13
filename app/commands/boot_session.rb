@@ -3,11 +3,8 @@ module Synthia::Command
 
   class BootSession < Synthia::Command::Base
 
-    def self.execute(hacker)
-      response = ''
-      #Synthia::Model::Session.boot_session()
-
-      response
+    def self.execute(hacker, *args)
+      Synthia::Model::Session.boot_session hacker
     end
   end
 end

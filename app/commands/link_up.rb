@@ -3,11 +3,8 @@ module Synthia::Command
 
   class LinkUp < Synthia::Command::Base
 
-    def self.execute(*args)
-      response = ''
-
-      response
-      'You have been enlinkened.'
+    def self.execute(hacker, *args)
+      Synthia::Model::SessionHacker.link_up(hacker)
     end
   end
 end
