@@ -4814,3 +4814,8 @@ Synthia
         /|                            
         \|                            
 ./ours/script.flf
+
+
+ADDITIONALLY
+
+http://patorjk.com/software/taag/#p=display&f=Bloody&t=SYNTHIA
