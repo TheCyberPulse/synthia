@@ -16,9 +16,10 @@ module Synthia
 
     def self.load_special_commands
       special_commands = {
-        'sr' => 'SongRequest',
+        'boot' => 'BootSession',
+        'creds' => 'Cred',
         'songrequest' => 'SongRequest',
-        'creds' => 'Cred'
+        'sr' => 'SongRequest'
       }
       @@settings['commands'].merge! special_commands
     end

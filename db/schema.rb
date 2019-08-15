@@ -59,3 +59,24 @@ unless DB.table_exists?(:creds)
     DateTime :updated_at
   end
 end
+
+unless DB.table_exists?(:sessions)
+  DB.create_table :sessions do
+    primary_key :id
+    String :status
+    DateTime :deleted_at
+    DateTime :created_at
+    DateTime :updated_at
+  end
+end
+
+unless DB.table_exists?(:session_hackers)
+  DB.create_table :session_hackers do
+    primary_key :id
+    foreign_key :session_id
+    foreign_key :hacker_id
+    DateTime :deleted_at
+    DateTime :created_at
+    DateTime :updated_at
+  end
+end
