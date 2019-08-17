@@ -2,11 +2,48 @@
 %html
   %head
     %title Synthia
-  %body
-    %h1 Whaddup chumps?
-    %hr
-    %h2 THINGS!
-    %ul
-      %li= @things[:alias].to_s
+    %script{:src => 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'}
+    %script{:src => 'http://www.youtube.com/player_api'}
+  %body{:style => 'margin: -5px -5px -5px -5px;'}
+    #video
+    %table
+      %thead
+        %tr
+          %th Request ID
+          %th Title
+          %th URL
+          %th Video ID
+      %tbody
+        - @queue.each do |v|
+          %tr.video
+            %td.song-request-id= v[:id]
+            %td.video-title= ''
+            %td.video-url= v[:url].to_s
+            %td.video-id= v[:url].split('v=')[1].split('&')[0].to_s
 
+  :javascript
+    // create youtube player
+    var player;
+    function onYouTubePlayerAPIReady() {
+      player = new YT.Player('video', {
+        width: '580',
+        height: '300',
+        videoId: "#{@current_song_request_video_id}",
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange
+        }
+      });
+    }
 
+    // autoplay video
+    function onPlayerReady(event) {
+      event.target.playVideo();
+    }
+
+    // when video ends
+    function onPlayerStateChange(event) {
+      if(event.data === 0 && $('.video td.video-id').length > 0) {
+        window.location.href = '/play-requests/' + $('.video td.song-request-id')[0].textContent;
+      }
+    }

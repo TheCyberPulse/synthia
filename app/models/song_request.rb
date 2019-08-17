@@ -14,5 +14,14 @@ module Synthia::Model
     def self.queue
       where(:played => false, :deleted_at => nil).order(:id)
     end
+
+    def play!
+      now = Time.now
+      update(
+        :played => true,
+        :created_at => now,
+        :updated_at => now
+      )
+    end
   end
 end
