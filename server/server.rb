@@ -23,8 +23,10 @@ module Synthia
       current_song_request =
         Synthia::Model::SongRequest.queue.first if params[:song_request_id].to_i.zero? ||
         Synthia::Model::SongRequest.where(:id => params[:song_request_id].to_i).first
-      current_song_request_video_id = current_song_request[:url].to_s.split('v=')[1].split('&')[0].to_s
-      current_song_request.play!
+      url = current_song_request[:url].to_s if current_song_request.respond_to?(:[])
+      current_song_request_video_id = 0
+      current_song_request_video_id = url.split('v=')[1].split('&')[0].to_s if url.to_s.include?('v=')
+      current_song_request.play! if current_song_request.present?
       queue = Synthia::Model::SongRequest.queue
       render_template(
         'index.html.haml',
@@ -35,6 +37,8 @@ module Synthia
         }
       )
     end
+
+    private
 
     def render_template(template_path, locals)
       template = File.open("#{Dir.pwd}/app/views/#{template_path}").read
