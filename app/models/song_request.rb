@@ -19,7 +19,6 @@ module Synthia::Model
       now = Time.now
       update(
         :played => true,
-        :created_at => now,
         :updated_at => now
       )
     end

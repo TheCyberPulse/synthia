@@ -20,6 +20,7 @@ unless DB.table_exists?(:hackers)
     DateTime :deleted_at
     DateTime :created_at
     DateTime :updated_at
+    index :deleted_at
     index :twitch_user_id
     index :alias
   end
@@ -34,6 +35,23 @@ unless DB.table_exists?(:song_requests)
     DateTime :deleted_at
     DateTime :created_at
     DateTime :updated_at
+    index :deleted_at
+    index :hacker_id
+  end
+end
+
+unless DB.table_exists?(:default_songs)
+  DB.create_table :default_songs do
+    primary_key :id
+    foreign_key :hacker_id, :hackers
+    String :url
+    DateTime :last_played_at
+    DateTime :deleted_at
+    DateTime :created_at
+    DateTime :updated_at
+    index :deleted_at
+    index :hacker_id
+    index :last_played_at
   end
 end
 
@@ -46,6 +64,7 @@ unless DB.table_exists?(:custom_commands)
     DateTime :deleted_at
     DateTime :created_at
     DateTime :updated_at
+    index :deleted_at
   end
 end
 
@@ -57,6 +76,8 @@ unless DB.table_exists?(:creds)
     DateTime :deleted_at
     DateTime :created_at
     DateTime :updated_at
+    index :deleted_at
+    index :hacker_id
   end
 end
 
@@ -67,6 +88,7 @@ unless DB.table_exists?(:sessions)
     DateTime :deleted_at
     DateTime :created_at
     DateTime :updated_at
+    index :deleted_at
   end
 end
 
@@ -78,5 +100,8 @@ unless DB.table_exists?(:session_hackers)
     DateTime :deleted_at
     DateTime :created_at
     DateTime :updated_at
+    index :deleted_at
+    index :hacker_id
+    index :session_id
   end
 end
