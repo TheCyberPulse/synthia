@@ -1,0 +1,7 @@
+CREATE TABLE sessions (
+  id SERIAL PRIMARY KEY,
+  status VARCHAR (30) NOT NULL,
+  deleted_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL
+);
