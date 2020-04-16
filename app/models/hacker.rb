@@ -1,5 +1,5 @@
 module Synthia::Model
-  class Hacker < Sequel::Model
+  class Hacker < Synthia::Model::Base
 
     def self.find_or_create(hacker_alias)
       hacker_alias = hacker_alias.to_s.downcase

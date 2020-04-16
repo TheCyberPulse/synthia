@@ -1,5 +1,5 @@
 module Synthia::Model
-  class SongRequest < Sequel::Model
+  class SongRequest < Base
 
     def self.log_song_request(hacker, url)
       now = Time.now
@@ -19,7 +19,6 @@ module Synthia::Model
       now = Time.now
       update(
         :played => true,
-        :created_at => now,
         :updated_at => now
       )
     end

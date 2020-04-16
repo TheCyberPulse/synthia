@@ -1,18 +1,19 @@
 require 'rubygems'
 require 'summer'
-require 'sequel'
+require 'pg'
 load 'lib/synthia.rb'
 load 'app/controller.rb'
 Synthia::init
 
 # Connect to database
-DB = Sequel.postgres(
-  Synthia::Config['database']['name'],
-  :user => Synthia::Config['database']['username'],
-  :password => Synthia::Config['database']['password'],
+db = PG.connect(
   :host => Synthia::Config['database']['host'],
-  :port => Synthia::Config['database']['port']
+  :port => Synthia::Config['database']['port'],
+  :dbname => Synthia::Config['database']['name'],
+  :user => Synthia::Config['database']['username'],
+  :password => Synthia::Config['database']['password']
 )
+
 # Load models
 Dir.glob(
   File.dirname(File.absolute_path(__FILE__)) + '/app/models/**/*',
