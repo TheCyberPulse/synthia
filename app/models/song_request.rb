@@ -1,5 +1,5 @@
 module Synthia::Model
-  class SongRequest < Sequel::Model
+  class SongRequest < Base
 
     def self.log_song_request(hacker, url)
       now = Time.now

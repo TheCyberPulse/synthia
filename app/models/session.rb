@@ -1,5 +1,5 @@
 module Synthia::Model
-  class Session < Sequel::Model
+  class Session < Synthia::Model::Base
 
     STATUSES = %i[
       active

@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'sequel'
+require 'pg'
 require 'haml'
 load 'lib/synthia.rb'
 Synthia::init
@@ -10,12 +10,19 @@ module Synthia
     set :root, "#{File.dirname(__FILE__)}"
 
     # Connect to database
-    DB = Sequel.postgres(
-      Synthia::Config['database']['name'],
-      :user => Synthia::Config['database']['username'],
-      :password => Synthia::Config['database']['password'],
+    #DB = Sequel.postgres(
+    #  Synthia::Config['database']['name'],
+    #  :user => Synthia::Config['database']['username'],
+    #  :password => Synthia::Config['database']['password'],
+    #  :host => Synthia::Config['database']['host'],
+    #  :port => Synthia::Config['database']['port']
+    #)
+    db = PG.connect(
       :host => Synthia::Config['database']['host'],
-      :port => Synthia::Config['database']['port']
+      :port => Synthia::Config['database']['port'],
+      :dbname => Synthia::Config['database']['name'],
+      :user => Synthia::Config['database']['username'],
+      :password => Synthia::Config['database']['password']
     )
 
     get '/play-requests/:song_type/:song_id?' do

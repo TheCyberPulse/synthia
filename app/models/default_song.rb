@@ -1,5 +1,5 @@
 module Synthia::Model
-  class DefaultSong < Sequel::Model
+  class DefaultSong < Base
 
     def self.queue
       now = Time.now

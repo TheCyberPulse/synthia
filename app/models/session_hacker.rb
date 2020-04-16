@@ -1,5 +1,5 @@
 module Synthia::Model
-  class SessionHacker < Sequel::Model
+  class SessionHacker < Synthia::Model::Base
 
     def self.link_up(hacker)
       active_session = Synthia::Model::Session.active_session
