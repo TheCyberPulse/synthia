@@ -1,4 +1,0 @@
-nick: nickhere
-use_ssl: false
-server_password: oauth_password_here
-channel: '#channel_here'
