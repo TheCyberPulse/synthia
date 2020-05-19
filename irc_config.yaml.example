@@ -1,0 +1,6 @@
+:nick: accountname
+:realname: accountname
+:server: irc.chat.twitch.tv
+:password: oauth:password
+:channels:
+  - '#yourchannel'

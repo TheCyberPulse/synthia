@@ -1,2 +1,2 @@
-config/application.yml
-config/summer.yml
+irc_config.yaml
+Gemfile.lock
