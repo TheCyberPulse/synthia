@@ -6,6 +6,7 @@ require 'yaml'
 SHARED_CONFIG = YAML.load(File.read("./config/shared_config.yaml"))
 
 $song_request_queue = []
+$current_song = {}
 
 def json_params(request_data)
   begin
@@ -27,6 +28,11 @@ def fetch_video_data(url)
   video_data
 end
 
+# Thread Safety should prevent issues from writing to the global song request queue
+configure do
+  set :lock, true
+  set :protection, except: [:frame_options]
+end
 # Main route that will redirect to the appropriate command route
 post "/process_command" do
   data = json_params(request.body.read)
@@ -41,10 +47,16 @@ post "/sr" do
   song_metadata = fetch_video_data(song_url)
 
   # Reject the embed HTML code key in the hash as HAML tries to render this.
-  $song_request_queue << {
-    :user => user,
-    :song_data => song_metadata
-  }
+  puts "Current Song Empty? ", $current_song.empty?
+  if $current_song.empty?
+    $current_song = {:user => user, :song_data => song_metadata }
+  else
+    $song_request_queue << {
+      :user => user,
+      :song_data => song_metadata
+    }
+  end
+
   return {:status => 200, :message => "@#{user}, Song #{song_url} was added to queue"}.to_json
 end
 
@@ -56,9 +68,13 @@ post "/sq" do
 end
 
 get '/songqueue' do
-  p $song_request_queue
-  @song_queue = {:songs => $song_request_queue}
-  haml :songqueue
+  @song_queue = {:current_song => $current_song, :songs => $song_request_queue}
+  haml :publicsongqueue
+end
+
+get '/player' do
+  @song_queue = {:current_song => $current_song, :songs => $song_request_queue}
+  haml :player
 end
 
 # Catch-all route for commands that do not exist.
