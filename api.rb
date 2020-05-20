@@ -28,11 +28,12 @@ def fetch_video_data(url)
   video_data
 end
 
-# Thread Safety should prevent issues from writing to the global song request queue
+# Thread Safety should prevent issues from writing to the global song request queue, uses mutexes
 configure do
   set :lock, true
   set :protection, except: [:frame_options]
 end
+
 # Main route that will redirect to the appropriate command route
 post "/process_command" do
   data = json_params(request.body.read)
@@ -45,9 +46,6 @@ post "/sr" do
   song_url = json['message_parts'][1]
   user = json['user']
   song_metadata = fetch_video_data(song_url)
-
-  # Reject the embed HTML code key in the hash as HAML tries to render this.
-  puts "Current Song Empty? ", $current_song.empty?
   if $current_song.empty?
     $current_song = {:user => user, :song_data => song_metadata }
   else
@@ -57,14 +55,14 @@ post "/sr" do
     }
   end
 
-  return {:status => 200, :message => "@#{user}, Song #{song_url} was added to queue"}.to_json
+  return {:status => 200, :message => "@#{user}, Song #{song_metadata['title']} was added to queue"}.to_json
 end
 
 post "/sq" do
   json = json_params(request.body.read)
   user = json['user']
 
-  return {:status => 200, :message => "@#{user}, the song queue is viewable at #{SHARED_CONFIG[:root_url]}/songqueue"}
+  return {:status => 200, :message => "@#{user}, the song queue is viewable at #{SHARED_CONFIG[:root_url]}/songqueue"}.to_json
 end
 
 get '/songqueue' do
@@ -75,6 +73,31 @@ end
 get '/player' do
   @song_queue = {:current_song => $current_song, :songs => $song_request_queue}
   haml :player
+end
+
+post '/removesong' do
+  json = json_params(request.body.read)
+  requester = json['requester']
+  video_id = json['video-id']
+  $song_request_queue.delete_if do |song_hash|
+    song_hash[:user] == requester && song_hash[:song_data]['video_id'] == video_id
+  end
+
+  song = $song_request_queue.select do |song_hash|
+    song_hash[:user] == requester && song_hash[:song_data]['video_id'] == video_id
+  end
+
+  if song.empty?
+    return {:status => 200}.to_json
+  else
+    return {:status => 200}.to_json
+  end
+end
+
+get '/nextsong' do
+  next_song = $song_request_queue.shift
+  $current_song = next_song.nil? ? {} : next_song
+  return {:status => 200}.to_json
 end
 
 # Catch-all route for commands that do not exist.

@@ -33,6 +33,7 @@ body {
 
 .table td, .table th {
   border-top: 0px !important;
+  vertical-align: middle;
 }
 
 .table {
@@ -55,13 +56,46 @@ body {
   -webkit-animation-direction: alternate;
 }
 
-/* @-webkit-keyframes greenPulse {
-  from { -webkit-box-shadow: 0 0 0px #D425FF; }
-  50% { #91bd09; -webkit-box-shadow: 0 0 18px #D425FF; }
-  to { #749a02; -webkit-box-shadow: 0 0 0px #D425FF; }
-} */
-
 @-webkit-keyframes glow {
-    from { -webkit-filter: drop-shadow(0px 0px 0px #D425FF); }
-    to { -webkit-filter: drop-shadow(0px 0px 20px #D425FF); }
+  from { -webkit-filter: drop-shadow(0px 0px 0px #D425FF); }
+  to { -webkit-filter: drop-shadow(0px 0px 20px #D425FF); }
+}
+
+.padding {
+  padding-bottom: 10px;
+}
+
+.slim {
+  height: 5px !important;
+  font-size: 10;
+  padding-top: 5px;
+  padding-bottom: 20px;
+}
+
+.custom-danger {
+  background-color: #FF304B;
+  border-color: #FF304B;
+}
+
+.autorefresh-off {
+  font-size: 12;
+  font-weight: bold;
+  margin-bottom: 10px;
+  background-color: #FF304B !important;
+  border-color: #FF304B !important;
+  color: #00dfb1 !important;
+}
+
+.autorefresh-on {
+  font-size: 12;
+  font-weight: bold;
+  margin-bottom: 10px;
+  background-color: #77D836 !important;
+  border-color: #77D836 !important;
+  color: #D425FF !important;
+}
+
+.btn:focus,.btn:active {
+   outline: none !important;
+   box-shadow: none;
 }
