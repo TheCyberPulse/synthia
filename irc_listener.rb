@@ -34,7 +34,6 @@ bot = Cinch::Bot.new do
       RestClient.post("#{SHARED_CONFIG[:root_url]}/process_command", post_params) do |response, request, result, &block|
         if [301, 302, 307].include? response.code
           redirect_url = response.headers[:location]
-          puts "REDIRECT_URL", redirect_url
           new_response = RestClient.post(redirect_url, post_params)
         else
           response.return!(request, result, &block)

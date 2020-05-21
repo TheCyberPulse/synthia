@@ -30,6 +30,7 @@ end
 
 # Thread Safety should prevent issues from writing to the global song request queue, uses mutexes
 configure do
+  set :bind, '0.0.0.0'
   set :lock, true
   set :protection, except: [:frame_options]
 end
