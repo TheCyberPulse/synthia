@@ -1,3 +1,3 @@
-irc_config.yaml
+config/irc_config.yaml
 Gemfile.lock
-shared_config.yaml
+config/shared_config.yaml
